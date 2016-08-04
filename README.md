@@ -18,15 +18,16 @@ domain's SMTP server to try figuring out if the address really exists.
 ```php
 <?php
 
-require('smtp-validate-email.php');
+use SMTPValidateEmail\SMTPValidateEmail;
 
-$from = 'a-happy-camper@campspot.net'; // for SMTP FROM:<> command
-$email = 'someone@somewhere.net';
+$from = 'sendingemail@test.test';
+$email = 'emailtoverify@test.test';
 
-$validator = new SMTP_Validate_Email($email, $from);
+$validator = new SMTPValidateEmail($email, $from);
 $smtp_results = $validator->validate();
 
-var_dump($smtp_results);
+print_r($smtp_results);
+
 ```
 
 ### Array usage
@@ -36,7 +37,7 @@ a single connection.
 ```php
 <?php
 
-require('smtp-validate-email.php');
+use SMTPValidateEmail\SMTPValidateEmail;
 
 $from = 'a-happy-camper@campspot.net'; // for SMTP FROM:<> command
 $emails = array(
@@ -46,12 +47,12 @@ $emails = array(
     'someone-else@example.com'
 );
 
-$validator = new SMTP_Validate_Email($emails, $from);
+$validator = new SMTPValidateEmail($emails, $from);
 $smtp_results = $validator->validate();
 
 // or passing to the validate() method
-// $validator = new SMTP_Validate_Email();
+// $validator = new SMTPValidateEmail();
 // $smtp_results = $validator->validate($emails, $from);
 
-var_dump($smtp_results);
+print_r($smtp_results);
 ```
