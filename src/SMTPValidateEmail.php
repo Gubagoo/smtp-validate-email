@@ -46,7 +46,7 @@ class SMTP_Validate_Email_Exception_No_TLS extends SMTP_Validate_Email_Exception
 class SMTP_Validate_Email_Exception_Send_Failed extends SMTP_Validate_Email_Exception {}
 
 // SMTP validation class
-class SMTP_Validate_Email {
+class SMTPValidateEmail {
 
     // holds the socket connection resource
     private $socket;
@@ -82,7 +82,7 @@ class SMTP_Validate_Email {
     );
 
     // print stuff as it happens or not
-    public $debug = false;
+    public $debug = true;
 
     // default smtp port
     public $connect_port = 25;
