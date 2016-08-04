@@ -31,8 +31,10 @@
 * See the source and comments for more details.
 */
 
+namespace SMTPValidateEmail;
+
 // Exceptions we throw
-class SMTP_Validate_Email_Exception extends Exception {}
+class SMTP_Validate_Email_Exception extends \Exception {}
 class SMTP_Validate_Email_Exception_Timeout extends SMTP_Validate_Email_Exception {}
 class SMTP_Validate_Email_Exception_Unexpected_Response extends SMTP_Validate_Email_Exception {}
 class SMTP_Validate_Email_Exception_No_Response extends SMTP_Validate_Email_Exception {}
