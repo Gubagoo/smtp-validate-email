@@ -1,6 +1,9 @@
 {
-    "name": "rcwd/smtp-validate-email",
+    "name": "robdudley/smtp-validate-email",
     "description": "Validates an email address by checking for MX records and performing and SMTP triplet connection",
+    "keywords": ["email","smtp", "validation"],
+    "homepage": "https://github.com/robdudley/smtp-validate-email",
+    "license": "MIT",
     "type": "library",
     "license": "GPL-3.0",
     "authors": [
