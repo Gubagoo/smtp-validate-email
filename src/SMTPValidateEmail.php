@@ -82,7 +82,7 @@ class SMTPValidateEmail {
     );
 
     // print stuff as it happens or not
-    public $debug = true;
+    public $debug = false;
 
     // default smtp port
     public $connect_port = 25;
