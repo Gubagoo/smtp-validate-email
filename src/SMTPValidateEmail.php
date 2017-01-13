@@ -571,6 +571,9 @@ class SMTPValidateEmail
      */
     protected function rcpt($to)
     {
+        if(!$this->connected()){
+            return null;
+        }
         // need to have issued MAIL FROM first
         if (!$this->state['mail']) {
             throw new SMTP_Validate_Email_Exception_No_Mail_From('Need MAIL FROM before RCPT TO');
