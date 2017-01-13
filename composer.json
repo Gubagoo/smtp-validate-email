@@ -1,8 +1,8 @@
 {
-    "name": "robdudley/smtp-validate-email",
+    "name": "devmastersbv/smtp-validate-email",
     "description": "Validates an email address by checking for MX records and performing and SMTP triplet connection",
     "keywords": ["email","smtp", "validation"],
-    "homepage": "https://github.com/robdudley/smtp-validate-email",
+    "homepage": "https://github.com/devmastersbv/smtp-validate-email",
     "license": "MIT",
     "type": "library",
     "license": "GPL-3.0",
@@ -14,6 +14,10 @@
         {
             "name": "Rob Dudley",
             "email": "rob@rcwd.me"
+        },
+        {
+            "name": "Julian Rutten",
+            "email": "julian@devmasters.nl"
         }
     ],
     "minimum-stability": "stable",
