@@ -316,7 +316,6 @@ class SMTPValidateEmail
 				try {
 					// say helo, and continue if we can talk
 					if ($this->helo()) {
-
 						// try issuing MAIL FROM
 						if (!($this->mail($this->from_user . '@' . $this->from_domain))) {
 							// MAIL FROM not accepted, we can't talk
@@ -383,6 +382,8 @@ class SMTPValidateEmail
 					// A timeout is a comm failure, so treat the results on that domain
 					// according to $this->no_comm_is_valid as well
 					$this->set_domain_results($users, $domain, $this->no_comm_is_valid, "Connection timeout");
+				} catch (SMTP_Validate_Email_Exception_No_Connection $e) {
+					$this->set_domain_results($users, $domain, $this->no_comm_is_valid, $e->getMessage());
 				}
 			}
 		}
