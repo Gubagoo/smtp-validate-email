@@ -19,7 +19,6 @@
             "email": "julian@devmasters.nl"
         }
     ],
-    "minimum-stability": "stable",
     "require": {},
     "autoload": {
         "psr-4": {
