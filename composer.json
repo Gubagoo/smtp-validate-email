@@ -1,11 +1,10 @@
 {
-    "name": "devmastersbv/smtp-validate-email",
+    "name": "Gubagoo/smtp-validate-email",
     "description": "Validates an email address by checking for MX records and performing and SMTP triplet connection",
     "keywords": ["email","smtp", "validation"],
-    "homepage": "https://github.com/devmastersbv/smtp-validate-email",
+    "homepage": "https://github.com/Gubagoo/smtp-validate-email",
     "license": "MIT",
     "type": "library",
-    "license": "GPL-3.0",
     "authors": [
         {
             "name": "Tomaš Trkulja [zytzagoo]",
