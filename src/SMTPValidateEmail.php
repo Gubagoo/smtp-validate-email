@@ -315,7 +315,7 @@ class SMTPValidateEmail
 			if ($this->connected()) {
 				try {
 					// say helo, and continue if we can talk
-					if ($this->helo()) {
+					if (false !== $this->helo()) {
 						// try issuing MAIL FROM
 						if (!($this->mail($this->from_user . '@' . $this->from_domain))) {
 							// MAIL FROM not accepted, we can't talk
@@ -489,13 +489,13 @@ class SMTPValidateEmail
 	/**
 	 * Sends a HELO/EHLO sequence
 	 * @todo Implement TLS
-	 * @return bool  True if successful, false otherwise
+	 * @return bool|null  True if successful, false otherwise
 	 */
 	protected function helo()
 	{
 		// don't try if it was already done
 		if ($this->state['helo']) {
-			return FALSE;
+			return;
 		}
 		try {
 			$this->expect(self::SMTP_CONNECT_SUCCESS, $this->command_timeouts['helo']);
