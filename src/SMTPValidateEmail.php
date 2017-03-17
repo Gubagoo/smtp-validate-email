@@ -645,7 +645,11 @@ class SMTPValidateEmail
 		// although RFC says QUIT can be issued at any time, we won't
 		if ($this->state['helo']) {
 			$this->send('QUIT');
-			$this->expect(array(self::SMTP_GENERIC_SUCCESS, self::SMTP_QUIT_SUCCESS), $this->command_timeouts['quit'], TRUE);
+			$expect = array(self::SMTP_GENERIC_SUCCESS, self::SMTP_QUIT_SUCCESS);
+			if (isset($this->domains['aol.com'])) { // Aol Server hack
+				$expect[] = self::SMTP_SERVICE_UNAVAILABLE;
+			}
+			$this->expect($expect, $this->command_timeouts['quit'], TRUE);
 		}
 	}
 
@@ -750,7 +754,7 @@ class SMTPValidateEmail
 				$text .= $line;
 			}
 			sscanf($line, '%d%s', $code, $text);
-			if (($empty_response_allowed === FALSE && ($code === NULL || !in_array($code, $codes))) || $code == self::SMTP_SERVICE_UNAVAILABLE) {
+			if (($empty_response_allowed === FALSE && ($code === NULL || !in_array($code, $codes))) || ($code == self::SMTP_SERVICE_UNAVAILABLE && !in_array($code, $codes))) {
 				if (preg_match('!^[0-9- .#]+(?:(?:<[^>]+>:?\s*)|(?:\[[^\]]+\]:?\s*))?([^.]+)!', $output, $msg)) {
 					$msg = trim($msg[1]);
 				} else {
