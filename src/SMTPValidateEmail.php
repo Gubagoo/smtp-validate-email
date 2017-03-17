@@ -751,7 +751,7 @@ class SMTPValidateEmail
 			}
 			sscanf($line, '%d%s', $code, $text);
 			if (($empty_response_allowed === FALSE && ($code === NULL || !in_array($code, $codes))) || $code == self::SMTP_SERVICE_UNAVAILABLE) {
-				if (preg_match('!^[0-9- .]+(?:<[^>]+>:?\s*)?([^.]+)!', $output, $msg)) {
+				if (preg_match('!^[0-9- .#]+(?:(?:<[^>]+>:?\s*)|(?:\[[^\]]+\]:?\s*))?([^.]+)!', $output, $msg)) {
 					$msg = trim($msg[1]);
 				} else {
 					$msg = $output;
