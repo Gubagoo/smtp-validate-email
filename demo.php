@@ -1,13 +1,13 @@
 <?php 
 
-require_once __DIR__ . '/vendor/autoload.php'; // Autoload files using Composer autoload
+require "./src/SMTPValidateEmail.php";
 
 use SMTPValidateEmail\SMTPValidateEmail;
 
-$from = 'sendingemail@test.test';
-$email = 'emailtoverify@test.test';
+$from = 'admin@gubagoo.com';
+$email = ['andrew.showell@underwoodsmotorgroup.com'];
 
-$validator = new SMTPValidateEmail($email, $from);
-$smtp_results = $validator->validate();
+$validator = new SMTPValidateEmail(null, null, true);
+$smtp_results = $validator->validate($email, $from, false);
 
-print_r($smtp_results);
+var_dump($smtp_results);

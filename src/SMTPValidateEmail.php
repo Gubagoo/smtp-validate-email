@@ -288,6 +288,7 @@ class SMTPValidateEmail
 			}
 			asort($mxs);
 
+
 			// add the hostname itself with 0 weight (RFC 2821)
 			$mxs[$domain] = 0;
 
@@ -629,7 +630,8 @@ class SMTPValidateEmail
 			self::SMTP_CONNECT_SUCCESS,
 			self::SMTP_NOT_IMPLEMENTED,
 			// hotmail returns this o_O
-			self::SMTP_TRANSACTION_FAILED
+			self::SMTP_TRANSACTION_FAILED,
+			self::SMTP_SERVICE_UNAVAILABLE
 		);
 		$this->expect($expected, $this->command_timeouts['rset'], TRUE);
 		$this->state['mail'] = FALSE;
