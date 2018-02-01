@@ -645,10 +645,7 @@ class SMTPValidateEmail
 		// although RFC says QUIT can be issued at any time, we won't
 		if ($this->state['helo']) {
 			$this->send('QUIT');
-			$expect = array(self::SMTP_GENERIC_SUCCESS, self::SMTP_QUIT_SUCCESS);
-			if (isset($this->domains['aol.com'])) { // Aol Server hack
-				$expect[] = self::SMTP_SERVICE_UNAVAILABLE;
-			}
+			$expect = array(self::SMTP_GENERIC_SUCCESS, self::SMTP_QUIT_SUCCESS, self::SMTP_SERVICE_UNAVAILABLE);
 			$this->expect($expect, $this->command_timeouts['quit'], TRUE);
 		}
 	}
