@@ -298,7 +298,7 @@ class SMTPValidateEmail
 			$this->domains_info[$domain]['mxs'] = $mxs;
 
 			// try each host
-            foreach ($mxs as $host => $v)
+            foreach ($mxs as $host => $v) {
 				// try connecting to the remote host
 				try {
 					$this->connect($host);
