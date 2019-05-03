@@ -5,7 +5,7 @@ require "./src/SMTPValidateEmail.php";
 use SMTPValidateEmail\SMTPValidateEmail;
 
 $from = 'admin@gubagoo.com';
-$email = ['andrew.showell@underwoodsmotorgroup.com'];
+$email = ['service@levcstockport.com'];
 
 $validator = new SMTPValidateEmail(null, null, true);
 $smtp_results = $validator->validate($email, $from, false);

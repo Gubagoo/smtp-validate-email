@@ -118,6 +118,8 @@ class SMTPValidateEmail
 	public $connect_port = 25;
 	public $noop = FALSE;
 
+	private $tls = false;
+
 	/**
 	 * Are 'catch-all' accounts considered valid or not?
 	 * If not, the class checks for a "catch-all" and if it determines the box
@@ -503,19 +505,10 @@ class SMTPValidateEmail
 			$this->ehlo();
 			// session started
 			$this->state['helo'] = TRUE;
-			// are we going for a TLS connection?
-			/*
-			  if ($this->tls == true) {
-			  // send STARTTLS, wait 3 minutes
-			  $this->send('STARTTLS');
-			  $this->expect(self::SMTP_CONNECT_SUCCESS, $this->command_timeouts['tls']);
-			  $result = stream_socket_enable_crypto($this->socket, true,
-			  STREAM_CRYPTO_METHOD_TLS_CLIENT);
-			  if (!$result) {
-			  throw new SMTP_Validate_Email_Exception_No_TLS('Cannot enable TLS');
-			  }
-			  }
-			 */
+
+			if ($this->tls) {
+                $this->startTLS();
+            }
 
 			return TRUE;
 		} catch (SMTP_Validate_Email_Exception_Unexpected_Response $e) {
@@ -526,6 +519,26 @@ class SMTPValidateEmail
 			return FALSE;
 		}
 	}
+
+    /**
+     * Start TLS
+     * @throws SMTP_Validate_Email_Exception_No_Connection
+     * @throws SMTP_Validate_Email_Exception_No_TLS
+     * @throws SMTP_Validate_Email_Exception_Send_Failed
+     * @throws SMTP_Validate_Email_Exception_Unexpected_Response
+     */
+	protected function startTLS()
+    {
+        $this->send('STARTTLS');
+        $this->expect(self::SMTP_CONNECT_SUCCESS, $this->command_timeouts['tls']);
+        $result = stream_socket_enable_crypto($this->socket, true,
+            STREAM_CRYPTO_METHOD_TLS_CLIENT|STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT|STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT);
+        if (!$result) {
+            throw new SMTP_Validate_Email_Exception_No_TLS('Cannot enable TLS');
+        }
+
+        $this->ehlo();
+    }
 
 	/**
 	 * Send EHLO or HELO, depending on what's supported by the remote host.
@@ -749,6 +762,9 @@ class SMTPValidateEmail
 		try {
 			$output = $text = $line = $this->recv($timeout);
 			while (preg_match("/^[0-9]+-/", $line)) {
+			    if (strpos($line, '250-STARTTLS') !== false) {
+			        $this->tls = true;
+                }
 				$output .= $line = $this->recv($timeout);
 				$text .= $line;
 			}
