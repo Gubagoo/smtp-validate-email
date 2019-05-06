@@ -531,10 +531,20 @@ class SMTPValidateEmail
     {
         $this->send('STARTTLS');
         $this->expect(self::SMTP_CONNECT_SUCCESS, $this->command_timeouts['tls']);
-        $result = stream_socket_enable_crypto($this->socket, true,
+
+        stream_context_set_params($this->socket, [
+            'ssl' => [
+                'verify_peer'       => false,
+                'verify_peer_name'  => false,
+                'allow_self_signed' => true,
+            ]
+        ]);
+
+        // @ is here because it is the only way to block PHP warnings :(
+        $result = @stream_socket_enable_crypto($this->socket, true,
             STREAM_CRYPTO_METHOD_TLS_CLIENT|STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT|STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT);
         if (!$result) {
-            throw new SMTP_Validate_Email_Exception_No_TLS('Cannot enable TLS');
+            return;
         }
 
         $this->ehlo();
