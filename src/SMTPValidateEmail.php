@@ -544,7 +544,7 @@ class SMTPValidateEmail
         $result = @stream_socket_enable_crypto($this->socket, true,
             STREAM_CRYPTO_METHOD_TLS_CLIENT|STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT|STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT);
         if (!$result) {
-            return;
+            $this->connect($this->host);
         }
 
         $this->ehlo();
@@ -738,6 +738,7 @@ class SMTPValidateEmail
 		if ($timeout !== NULL) {
 			stream_set_timeout($this->socket, $timeout);
 		}
+
 		// retrieve response
 		$line = fgets($this->socket, 1024);
 		$this->debug('<<<recv: ' . $line);
