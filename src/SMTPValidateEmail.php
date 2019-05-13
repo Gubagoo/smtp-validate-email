@@ -290,7 +290,6 @@ class SMTPValidateEmail
 			}
 			asort($mxs);
 
-
 			// add the hostname itself with 0 weight (RFC 2821)
 			$mxs[$domain] = 0;
 
@@ -446,7 +445,13 @@ class SMTPValidateEmail
 		// open connection
 		$this->debug('Connecting to ' . $this->host);
 		$this->socket = @stream_socket_client(
-			$this->host, $errnum, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT, stream_context_create(array())
+			$this->host, $errnum, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT, stream_context_create(array(
+                'ssl' => [
+                    'verify_peer'       => false,
+                    'verify_peer_name'  => false,
+                    'allow_self_signed' => true,
+                ]
+            ))
 		);
 		// connected?
 		if (!$this->connected()) {
@@ -531,14 +536,6 @@ class SMTPValidateEmail
     {
         $this->send('STARTTLS');
         $this->expect(self::SMTP_CONNECT_SUCCESS, $this->command_timeouts['tls']);
-
-        stream_context_set_params($this->socket, [
-            'ssl' => [
-                'verify_peer'       => false,
-                'verify_peer_name'  => false,
-                'allow_self_signed' => true,
-            ]
-        ]);
 
         // @ is here because it is the only way to block PHP warnings :(
         $result = @stream_socket_enable_crypto($this->socket, true,
