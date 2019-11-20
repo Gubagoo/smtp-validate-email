@@ -627,6 +627,10 @@ class SMTPValidateEmail
 				$this->state['rcpt'] = TRUE;
 				$is_valid = TRUE;
 			} catch (SMTP_Validate_Email_Exception_Unexpected_Response $e) {
+			    if (stripos($e->getMessage(), 'Sender IP reverse lookup rejected') !== false) {
+                    $this->state['rcpt'] = TRUE;
+                    return true;
+                }
 				$this->debug('Unexpected response to RCPT TO: ' . $e->getMessage());
 				$this->results[$to . '_error_msg'] = $e->getMessage();
 			}
